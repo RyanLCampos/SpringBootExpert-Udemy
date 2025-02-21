@@ -49,6 +49,31 @@ public class LivroRepositoryTeste {
 
     }
 
+    @Test
+    public void salvarAutorELivroTeste(){
+
+        Livro livro = new Livro();
+
+        livro.setIsbn("15783-64813");
+        livro.setTitulo("repellat dolorem");
+        livro.setDataPublicacao(LocalDate.of(2020, 5, 30));
+        livro.setGenero(GeneroLivro.FICCAO);
+        livro.setPreco(BigDecimal.valueOf(351.98));
+        
+        Autor autor = new Autor(); // Instanciando um objeto da classe Autor
+
+		autor.setNome("Samir Balistreri");
+		autor.setNacionalidade("Indiano");
+		autor.setDataNascimento(LocalDate.of(1925, 2, 27));
+
+        autorRepository.save(autor);
+
+        livro.setAutor(autor);
+
+        livroRepository.save(livro);
+
+    }
+
 
     @Test
     public void salvarCascadeTeste(){

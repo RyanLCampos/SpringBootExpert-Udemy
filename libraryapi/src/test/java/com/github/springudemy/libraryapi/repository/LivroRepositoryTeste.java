@@ -97,4 +97,20 @@ public class LivroRepositoryTeste {
         livroRepository.save(livro);
 
     }
+
+    @Test
+    public void atualizarAutorDoLivro(){
+
+        UUID id = UUID.fromString("873a5ff9-2b99-4ab8-8699-829e1211a8de");
+
+        var livroParaAtualizar = livroRepository.findById(id).orElse(null);
+
+        UUID idAutor = UUID.fromString("565f0aa7-83ce-468c-91cb-393a713c4fb2");
+
+        var autor = autorRepository.findById(idAutor).orElse(null);
+
+        livroParaAtualizar.setAutor(autor);
+
+        livroRepository.save(livroParaAtualizar);
+    }
 }

@@ -9,9 +9,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-// import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import jakarta.persistence.Transient;
 import lombok.Data;
 
 @Entity
@@ -33,7 +32,7 @@ public class Autor {
     @Column(name = "nacionalidade", length = 50, nullable = false)
     private String nacionalidade;
 
-    // @OneToMany(mappedBy = "autor") // Um autor para muitos livros
-    @Transient 
+    // Poderia utilizar cascade, caso deletar autor, removeria os livros.
+    @OneToMany(mappedBy = "autor") // Um autor para muitos livros
     private List<Livro> livros;
 }

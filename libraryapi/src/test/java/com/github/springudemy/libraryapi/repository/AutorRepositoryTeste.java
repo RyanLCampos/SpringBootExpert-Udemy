@@ -1,6 +1,8 @@
 package com.github.springudemy.libraryapi.repository;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -10,12 +12,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.github.springudemy.libraryapi.model.Autor;
+import com.github.springudemy.libraryapi.model.GeneroLivro;
+import com.github.springudemy.libraryapi.model.Livro;
 
 @SpringBootTest
 public class AutorRepositoryTeste{
 
     @Autowired
     private AutorRepository autorRepository;
+
+    @Autowired
+    private LivroRepository livroRepository;
 
     @Test
     public void salvarTeste(){
@@ -82,6 +89,43 @@ public class AutorRepositoryTeste{
             
             autorRepository.delete(autorEcontrado);
         }
+    }
+
+    @Test
+    public void salvarAutorComLivrosTeste(){
+        Autor autor = new Autor();
+
+        autor.setNome("Jerald Schamberger");
+        autor.setNacionalidade("Argentino");
+        autor.setDataNascimento(LocalDate.of(2003, 3, 3));
+        
+        autorRepository.save(autor);
+
+        Livro livro = new Livro();
+
+        livro.setIsbn("13476-34863");
+        livro.setTitulo("Metal Systems");
+        livro.setGenero(GeneroLivro.CIENCIA);
+        livro.setPreco(BigDecimal.valueOf(648.95));
+        livro.setDataPublicacao(LocalDate.of(2025, 1, 25));
+        livro.setAutor(autor);
+
+        Livro livro2 = new Livro();
+
+        livro2.setIsbn("58657-21532");
+        livro2.setTitulo("Teal Cambridgeshire");
+        livro2.setGenero(GeneroLivro.BIOGRAFIA);
+        livro2.setPreco(BigDecimal.valueOf(150.45));
+        livro2.setDataPublicacao(LocalDate.of(2025, 2, 15));
+        livro2.setAutor(autor);
+
+        autor.setLivros(new ArrayList<>());
+        autor.getLivros().add(livro);
+        autor.getLivros().add(livro2);
+
+        autorRepository.save(autor);
+
+        livroRepository.saveAll(autor.getLivros()); // Remover caso utilizar cascade
     }
 
 }

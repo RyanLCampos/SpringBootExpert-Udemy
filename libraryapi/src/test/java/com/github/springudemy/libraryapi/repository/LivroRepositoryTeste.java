@@ -9,6 +9,7 @@ import java.util.UUID;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+// import org.springframework.transaction.annotation.Transactional;
 
 import com.github.springudemy.libraryapi.model.Autor;
 import com.github.springudemy.libraryapi.model.GeneroLivro;
@@ -130,5 +131,16 @@ public class LivroRepositoryTeste {
         List<Livro> livros = livroRepository.findAll();
 
         livros.forEach(System.out::println);
+    }
+
+    @Test
+    // @Transactional (Caso utilizar FetchType.LAZY)
+    public void buscarLivroTeste(){
+        UUID idLivro = UUID.fromString("2402554b-def7-4873-b7de-79459be014f3");
+
+        Livro livro = livroRepository.findById(idLivro).orElse(null);
+
+        System.out.println("Livro -> " + livro.getTitulo());
+        System.out.println("Autor -> " + livro.getAutor().getNome());
     }
 }

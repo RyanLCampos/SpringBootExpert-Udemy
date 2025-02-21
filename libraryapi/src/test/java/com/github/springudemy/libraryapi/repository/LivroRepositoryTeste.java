@@ -23,7 +23,7 @@ public class LivroRepositoryTeste {
     private AutorRepository autorRepository;
 
     @Test
-    public void salverTeste(){
+    public void salvarTeste(){
 
         Livro livro = new Livro();
 
@@ -44,6 +44,30 @@ public class LivroRepositoryTeste {
         }else{
             System.out.println("Autor nao encontrado!");
         }
+
+        livroRepository.save(livro);
+
+    }
+
+
+    @Test
+    public void salvarCascadeTeste(){
+
+        Livro livro = new Livro();
+
+        livro.setIsbn("51355-12458");
+        livro.setTitulo("doloribus dicta");
+        livro.setDataPublicacao(LocalDate.of(2019, 1, 9));
+        livro.setGenero(GeneroLivro.FICCAO);
+        livro.setPreco(BigDecimal.valueOf(255.98));
+        
+        Autor autor = new Autor(); // Instanciando um objeto da classe Autor
+
+		autor.setNome("Alexandre Heathcote");
+		autor.setNacionalidade("Australiano");
+		autor.setDataNascimento(LocalDate.of(1975, 6, 10));
+
+        livro.setAutor(autor);
 
         livroRepository.save(livro);
 

@@ -2,6 +2,7 @@ package com.github.springudemy.libraryapi.repository;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -122,5 +123,12 @@ public class LivroRepositoryTeste {
         Livro livroParaDeletar = livroRepository.findById(id).orElse(null);
 
         livroRepository.delete(livroParaDeletar);
+    }
+
+    @Test
+    public void listarLivros(){
+        List<Livro> livros = livroRepository.findAll();
+
+        livros.forEach(System.out::println);
     }
 }

@@ -163,7 +163,15 @@ public class LivroRepositoryTeste {
 
         BigDecimal preco = BigDecimal.valueOf(648.95);
 
-        List<Livro> livros = livroRepository.findByTituloAndPreco("Metal Systems", preco);
+        List<Livro> livros = livroRepository.findByTituloAndPrecoOrderByTitulo("Metal Systems", preco);
+
+        livros.forEach(System.out::println);
+    }
+
+    @Test
+    public void buscarLivroPorIntervaloDePublicacaoTeste(){
+
+        List<Livro> livros = livroRepository.findByDataPublicacaoBetween(LocalDate.of(2025, 1, 1), LocalDate.of(2025, 2, 22));
 
         livros.forEach(System.out::println);
     }

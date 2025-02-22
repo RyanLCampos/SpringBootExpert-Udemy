@@ -10,6 +10,7 @@ import java.util.UUID;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+// import org.springframework.transaction.annotation.Transactional;
 
 import com.github.springudemy.libraryapi.model.Autor;
 import com.github.springudemy.libraryapi.model.GeneroLivro;
@@ -128,4 +129,20 @@ public class AutorRepositoryTeste{
         livroRepository.saveAll(autor.getLivros()); // Remover caso utilizar cascade
     }
 
+    @Test
+    // @Transactional // (Caso o FetchType.EAGER)
+    public void listarLivrosAutorTeste(){
+        
+        UUID idAutor = UUID.fromString("5cbdd2db-3e56-4e46-b61d-e01c28582334");
+        
+        Autor autor = autorRepository.findById(idAutor).orElse(null);
+
+        // Utilizar Query Method no lugar de FetchType.EAGER (NESSE CASO)
+        // Irá puxar os livros somente quando requisitado.
+        List<Livro> livros = livroRepository.findByAutor(autor); // Query Method
+        
+        autor.setLivros(livros);
+
+        autor.getLivros().forEach(System.out::println);
+    }
 }

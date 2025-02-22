@@ -143,4 +143,28 @@ public class LivroRepositoryTeste {
         System.out.println("Livro -> " + livro.getTitulo());
         System.out.println("Autor -> " + livro.getAutor().getNome());
     }
+
+    @Test
+    public void buscarLivroPorTituloTeste(){
+        List<Livro> livros = livroRepository.findByTitulo("Metal Systems");
+
+        livros.forEach(System.out::println);
+    }
+
+    @Test
+    public void buscarLivroPorISBNTeste(){
+        List<Livro> livros = livroRepository.findByIsbn("58657-21532");
+
+        livros.forEach(System.out::println);
+    }
+
+    @Test
+    public void buscarLivroPorTituloEPrecoTeste(){
+
+        BigDecimal preco = BigDecimal.valueOf(648.95);
+
+        List<Livro> livros = livroRepository.findByTituloAndPreco("Metal Systems", preco);
+
+        livros.forEach(System.out::println);
+    }
 }

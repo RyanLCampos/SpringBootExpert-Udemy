@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.UUID;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 import com.github.springudemy.libraryapi.model.Autor;
 import com.github.springudemy.libraryapi.model.Livro;
@@ -12,6 +13,9 @@ import java.time.LocalDate;
 
 
 
+/**
+ * @see LivroRepositoryTeste
+ */
 public interface LivroRepository extends JpaRepository<Livro, UUID>{
 
     // Query Method
@@ -24,4 +28,23 @@ public interface LivroRepository extends JpaRepository<Livro, UUID>{
     public List<Livro> findByTituloAndPrecoOrderByTitulo(String titulo, BigDecimal preco); // Buscar por Titulo e Preço (Ordenado pelo Titulo)
 
     public List<Livro> findByDataPublicacaoBetween(LocalDate inicio, LocalDate fim); // Buscar livros publicados entre as datas fornecidas
+
+    // JPQL -> referencia as entidades e as propriedades
+    @Query(" select l from Livro as l order by l.titulo, l.preco ")
+    public List<Livro> listarTodosOrdenadoPorTituloAndPreco();
+
+    @Query(" select a from Livro as l join l.autor a ")
+    public List<Autor> listarAutoresDosLivros();
+
+    @Query(" select distinct l.titulo from Livro as l ")
+    public List<String> listarNomesDiferentesLivros();
+
+    @Query("""
+        select distinct l.genero
+        from Livro as l
+        join l.autor a
+        where a.nacionalidade = 'Australiano'
+        order by l.genero   
+    """)
+    public List<String> listarGenerosAutoresAustralianos();
 }   

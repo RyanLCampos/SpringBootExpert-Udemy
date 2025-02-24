@@ -175,4 +175,32 @@ public class LivroRepositoryTeste {
 
         livros.forEach(System.out::println);
     }
+
+    @Test
+    public void listarLivrosComQueryJPQL(){
+        var livros = livroRepository.listarTodosOrdenadoPorTituloAndPreco();
+
+        livros.forEach(System.out::println);
+    }
+
+    @Test
+    public void obterAutoresPorLivrosComQueryJPQL(){
+        var autores = livroRepository.listarAutoresDosLivros();
+
+        autores.forEach(System.out::println);
+    }
+
+    @Test
+    public void obterTitulosNaoRepetidosDosLivros(){
+        var titulos = livroRepository.listarNomesDiferentesLivros();
+
+        titulos.forEach(System.out::println);
+    }
+
+    @Test
+    public void listarGenerosDeLivrosAutoresAustralianos(){
+        var generos = livroRepository.listarGenerosAutoresAustralianos();
+
+        generos.forEach(System.out::println);
+    }
 }

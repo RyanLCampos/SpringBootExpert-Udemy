@@ -30,9 +30,9 @@ public class LivroRepositoryTeste {
         Livro livro = new Livro();
 
         livro.setIsbn("51355-12458");
-        livro.setTitulo("doloribus dicta");
+        livro.setTitulo("Fantasia");
         livro.setDataPublicacao(LocalDate.of(2019, 1, 9));
-        livro.setGenero(GeneroLivro.FICCAO);
+        livro.setGenero(GeneroLivro.FANTASIA);
         livro.setPreco(BigDecimal.valueOf(255.98));
 
         var id = UUID.fromString("5cbdd2db-3e56-4e46-b61d-e01c28582334");
@@ -216,5 +216,10 @@ public class LivroRepositoryTeste {
         var livros = livroRepository.findByGeneroPositionalParameters(GeneroLivro.FICCAO, "dataPublicacao");
 
         livros.forEach(System.out::println);
+    }
+
+    @Test
+    public void deletePorGenerTeste(){
+        livroRepository.deleteByGenero(GeneroLivro.FANTASIA);
     }
 }

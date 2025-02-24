@@ -4,8 +4,10 @@ import java.util.List;
 import java.util.UUID;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.github.springudemy.libraryapi.model.Autor;
 import com.github.springudemy.libraryapi.model.GeneroLivro;
@@ -59,4 +61,9 @@ public interface LivroRepository extends JpaRepository<Livro, UUID>{
     // Positional Parameters
     @Query(" select l from Livro as l where l.genero = ?1 order by ?2 ") // Passando parametro no @Query
     public List<Livro> findByGeneroPositionalParameters(GeneroLivro generoLivro, String nomeDaPropriedade);
+
+    @Modifying
+    @Transactional // Utilizar quando modificar dado 
+    @Query(" delete from Livro where genero = ?1")
+    public void deleteByGenero(GeneroLivro genero);
 }   

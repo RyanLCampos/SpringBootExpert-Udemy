@@ -5,8 +5,10 @@ import java.util.UUID;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import com.github.springudemy.libraryapi.model.Autor;
+import com.github.springudemy.libraryapi.model.GeneroLivro;
 import com.github.springudemy.libraryapi.model.Livro;
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -47,4 +49,14 @@ public interface LivroRepository extends JpaRepository<Livro, UUID>{
         order by l.genero   
     """)
     public List<String> listarGenerosAutoresAustralianos();
+
+    @Query(" select l from Livro as l where l.genero = :genero order by :paramOrdenacao ") // Passando parametro no @Query
+    public List<Livro> findByGenero(
+                    @Param("genero") GeneroLivro generoLivro, 
+                    @Param("paramOrdenacao") String nomeDaPropriedade
+    );
+    
+    // Positional Parameters
+    @Query(" select l from Livro as l where l.genero = ?1 order by ?2 ") // Passando parametro no @Query
+    public List<Livro> findByGeneroPositionalParameters(GeneroLivro generoLivro, String nomeDaPropriedade);
 }   

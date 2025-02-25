@@ -2,7 +2,7 @@ create table livro(
 	id uuid not null primary key,
 	isbn varchar(20) not null,
 	titulo varchar(150) not null,
-	data_publicação date not null,
+	data_publicacao date not null,
 	genero varchar(30) not null,
 	preco numeric(18,2),
 	data_cadastro timestamp,

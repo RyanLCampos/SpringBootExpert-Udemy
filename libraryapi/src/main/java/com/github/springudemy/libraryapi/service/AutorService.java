@@ -1,5 +1,6 @@
 package com.github.springudemy.libraryapi.service;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -28,5 +29,17 @@ public class AutorService {
 
     public void deletar(Autor autor){
         autorRepository.delete(autor);
+    }
+
+    public List<Autor> pesquisa(String nome, String nacionalidade){
+        if(nome != null && nacionalidade != null){
+            return autorRepository.findByNomeAndNacionalidade(nome, nacionalidade);
+        }
+
+        if(nome != null || nacionalidade != null){
+            return autorRepository.findByNomeOrNacionalidade(nome, nacionalidade);
+        }
+
+        return autorRepository.findAll();
     }
 }

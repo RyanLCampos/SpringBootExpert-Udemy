@@ -1,12 +1,11 @@
 package com.github.springudemy.libraryapi.controller;
 
 import java.net.URI;
-import java.net.http.HttpResponse;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 // import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -63,7 +63,7 @@ public class AutorController {
                     autor.getNome(),
                     autor.getDataNascimento(),
                     autor.getNacionalidade());
-            
+
             return ResponseEntity.ok(autorDTO); // Encontrado -> Código: 200
         }
 
@@ -71,11 +71,11 @@ public class AutorController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> excluirAutor(@PathVariable String id){
+    public ResponseEntity<Void> excluirAutor(@PathVariable String id) {
 
         Optional<Autor> autorOptional = autorService.obterPorId(UUID.fromString(id));
 
-        if(autorOptional.isEmpty()){
+        if (autorOptional.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
 
@@ -84,6 +84,25 @@ public class AutorController {
         autorService.deletar(autor);
 
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping
+    public ResponseEntity<List<AutorDTO>> pesquisar(
+            @RequestParam(value = "nome", required = false) String nome,
+            @RequestParam(value = "nacionalidade", required = false) String nacionalidade) {
+
+        List<Autor> resultado =  autorService.pesquisa(nome, nacionalidade);
+        
+        List<AutorDTO> lista = resultado
+                .stream()
+                .map(autor -> new AutorDTO(
+                    autor.getId(), 
+                    autor.getNome(), 
+                    autor.getDataNascimento(), 
+                    autor.getNacionalidade())
+                ).collect(Collectors.toList());
+
+        return ResponseEntity.ok(lista);
     }
 
 }

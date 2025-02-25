@@ -1,12 +1,16 @@
 package com.github.springudemy.libraryapi.controller.dto;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 import com.github.springudemy.libraryapi.model.Autor;
 
-public record AutorDTO(String nome,
+public record AutorDTO(
+        UUID id,
+        String nome,
         LocalDate dataNascimento,
-        String nacionalidade) {
+        String nacionalidade
+) {
 
     
     public Autor mapearParaAutor(){

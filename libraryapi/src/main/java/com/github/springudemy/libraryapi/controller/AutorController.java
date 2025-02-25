@@ -1,8 +1,12 @@
 package com.github.springudemy.libraryapi.controller;
 
 import java.net.URI;
+import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -41,6 +45,25 @@ public class AutorController {
                 .toUri();
 
         return ResponseEntity.created(location).build();
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<AutorDTO> obterDetalhes(@PathVariable String id) {
+
+        Optional<Autor> autorOptional = autorService.obterPorId(UUID.fromString(id));
+
+        if (autorOptional.isPresent()) {
+            Autor autor = autorOptional.get();
+
+            AutorDTO autorDTO = new AutorDTO(autor.getId(),
+                    autor.getNome(),
+                    autor.getDataNascimento(),
+                    autor.getNacionalidade());
+            
+            return ResponseEntity.ok(autorDTO); // Encontrado -> Código: 200
+        }
+
+        return ResponseEntity.notFound().build(); // Não encontrado -> Código: 404
     }
 
 }

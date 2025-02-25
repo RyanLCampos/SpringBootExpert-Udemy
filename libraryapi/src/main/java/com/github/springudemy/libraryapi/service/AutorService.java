@@ -1,5 +1,8 @@
 package com.github.springudemy.libraryapi.service;
 
+import java.util.Optional;
+import java.util.UUID;
+
 import org.springframework.stereotype.Service;
 
 import com.github.springudemy.libraryapi.model.Autor;
@@ -17,5 +20,9 @@ public class AutorService {
 
     public Autor salvar(Autor autor){
         return autorRepository.save(autor);
+    }
+
+    public Optional<Autor> obterPorId(UUID id){
+        return autorRepository.findById(id);
     }
 }

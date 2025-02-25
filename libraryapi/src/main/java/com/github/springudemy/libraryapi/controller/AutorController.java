@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -103,6 +104,26 @@ public class AutorController {
                 ).collect(Collectors.toList());
 
         return ResponseEntity.ok(lista);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Void> atualizar(@PathVariable("id") String id, @RequestBody AutorDTO dto){
+        
+        Optional<Autor> autorOptional = autorService.obterPorId(UUID.fromString(id));
+
+        if(autorOptional.isEmpty()){
+            return ResponseEntity.notFound().build();
+        }
+
+        var autor = autorOptional.get();
+
+        autor.setNome(dto.nome());
+        autor.setDataNascimento(dto.dataNascimento());
+        autor.setNacionalidade(dto.nacionalidade());
+
+        autorService.atualizar(autor);
+
+        return ResponseEntity.noContent().build();
     }
 
 }

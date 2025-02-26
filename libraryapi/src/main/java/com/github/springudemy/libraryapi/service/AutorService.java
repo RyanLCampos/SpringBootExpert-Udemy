@@ -6,20 +6,27 @@ import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 
+import com.github.springudemy.libraryapi.exceptions.AutorComObraAssociadaException;
 import com.github.springudemy.libraryapi.model.Autor;
 import com.github.springudemy.libraryapi.repository.AutorRepository;
+import com.github.springudemy.libraryapi.repository.LivroRepository;
+import com.github.springudemy.libraryapi.validator.AutorValidator;
 
 @Service
 public class AutorService {
 
     private final AutorRepository autorRepository;
+    private final LivroRepository livroRepository;
+    private final AutorValidator validator;
 
-    public AutorService(AutorRepository autorRepository) {
+    public AutorService(AutorRepository autorRepository, AutorValidator validator, LivroRepository livroRepository) {
         this.autorRepository = autorRepository;
-
+        this.validator = validator;
+        this.livroRepository = livroRepository;
     }
 
     public Autor salvar(Autor autor){
+        validator.validar(autor);
         return autorRepository.save(autor);
     }
 
@@ -28,6 +35,7 @@ public class AutorService {
             throw new IllegalArgumentException("É necessário que o autor já esteja cadastrado na base.");
         }
         
+        validator.validar(autor);
         autorRepository.save(autor);
     }
 
@@ -36,6 +44,9 @@ public class AutorService {
     }
 
     public void deletar(Autor autor){
+        if(possuiLivro(autor)){
+            throw new AutorComObraAssociadaException("Autor possui livro associada!");
+        }
         autorRepository.delete(autor);
     }
 
@@ -49,5 +60,9 @@ public class AutorService {
         }
 
         return autorRepository.findAll();
+    }
+
+    public boolean possuiLivro(Autor autor){
+        return livroRepository.existsByAutor(autor);
     }
 }

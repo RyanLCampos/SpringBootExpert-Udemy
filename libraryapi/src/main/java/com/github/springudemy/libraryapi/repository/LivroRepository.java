@@ -66,4 +66,6 @@ public interface LivroRepository extends JpaRepository<Livro, UUID>{
     @Transactional // Utilizar quando modificar dado 
     @Query(" delete from Livro where genero = ?1")
     public void deleteByGenero(GeneroLivro genero);
+
+    boolean existsByAutor(Autor autor);
 }   

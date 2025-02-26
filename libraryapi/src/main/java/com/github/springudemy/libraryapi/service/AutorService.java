@@ -4,6 +4,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
+import org.springframework.data.domain.ExampleMatcher.StringMatcher;
 import org.springframework.stereotype.Service;
 
 import com.github.springudemy.libraryapi.exceptions.AutorComObraAssociadaException;
@@ -57,6 +60,24 @@ public class AutorService {
         }
 
         return autorRepository.findAll();
+    }
+
+    public List<Autor> pesquisaByExample(String nome, String nacionalidade){
+        
+        var autor = new Autor();
+        
+        autor.setNome(nome);
+        autor.setNacionalidade(nacionalidade);
+
+        ExampleMatcher matcher = ExampleMatcher
+                .matching()
+                .withIgnoreNullValues() // Ignora valores null
+                .withIgnoreCase() // Ignora se é maiusculo ou minusculo 
+                .withStringMatcher(StringMatcher.CONTAINING); // Verifica se o nome do autor (Banco) contém o valor especificado
+
+        Example<Autor> autorExample = Example.of(autor, matcher);
+
+        return autorRepository.findAll(autorExample);
     }
 
     public boolean possuiLivro(Autor autor){

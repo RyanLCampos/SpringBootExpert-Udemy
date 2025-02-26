@@ -3,7 +3,6 @@ package com.github.springudemy.libraryapi.repository;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 import org.junit.jupiter.api.Test;
@@ -29,23 +28,17 @@ public class LivroRepositoryTeste {
 
         Livro livro = new Livro();
 
-        livro.setIsbn("51355-12458");
-        livro.setTitulo("Fantasia");
-        livro.setDataPublicacao(LocalDate.of(2019, 1, 9));
-        livro.setGenero(GeneroLivro.FANTASIA);
-        livro.setPreco(BigDecimal.valueOf(255.98));
+        livro.setIsbn("978-85-370-0344-4");  
+        livro.setTitulo("O Velho e o Mar");
+        livro.setDataPublicacao(LocalDate.of(1952, 9, 1));
+        livro.setGenero(GeneroLivro.FICCAO);
+        livro.setPreco(BigDecimal.valueOf(39.90));
 
-        var id = UUID.fromString("5cbdd2db-3e56-4e46-b61d-e01c28582334");
+        var id = UUID.fromString("5201aa19-328f-4513-9609-3696b398d746");
 
-        Optional<Autor> possivelAutor = autorRepository.findById(id);
+        Autor autor = autorRepository.findById(id).orElse(null);
 
-        if (possivelAutor.isPresent()) {
-            Autor autor = possivelAutor.get();
-
-            livro.setAutor(autor);
-        } else {
-            System.out.println("Autor nao encontrado!");
-        }
+        livro.setAutor(autor);
 
         livroRepository.save(livro);
 

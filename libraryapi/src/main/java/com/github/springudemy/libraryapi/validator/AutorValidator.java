@@ -2,18 +2,19 @@ package com.github.springudemy.libraryapi.validator;
 
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.github.springudemy.libraryapi.exceptions.RegistroDuplicadoException;
 import com.github.springudemy.libraryapi.model.Autor;
 import com.github.springudemy.libraryapi.repository.AutorRepository;
 
+import lombok.RequiredArgsConstructor;
+
 @Component
+@RequiredArgsConstructor
 public class AutorValidator {
 
-    @Autowired
-    private AutorRepository repository;
+    private final AutorRepository repository;
 
     public void validar(Autor autor) {
         if (existeAutorCadastrado(autor)) {

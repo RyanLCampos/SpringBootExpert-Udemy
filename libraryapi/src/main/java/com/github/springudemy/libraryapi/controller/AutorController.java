@@ -26,17 +26,15 @@ import com.github.springudemy.libraryapi.exceptions.RegistroDuplicadoException;
 import com.github.springudemy.libraryapi.model.Autor;
 import com.github.springudemy.libraryapi.service.AutorService;
 
+import lombok.RequiredArgsConstructor;
+
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/autores")
 // http://localhost:8080/autores
 public class AutorController {
 
-    private AutorService autorService;
-
-    // Injeção de Dependencia
-    public AutorController(AutorService autorService) {
-        this.autorService = autorService;
-    }
+    private final AutorService autorService;
 
     // @RequestMapping(method = RequestMethod.POST) - OUTRA FORMA
     @PostMapping

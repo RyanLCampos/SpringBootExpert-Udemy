@@ -12,18 +12,15 @@ import com.github.springudemy.libraryapi.repository.AutorRepository;
 import com.github.springudemy.libraryapi.repository.LivroRepository;
 import com.github.springudemy.libraryapi.validator.AutorValidator;
 
+import lombok.RequiredArgsConstructor;
+
 @Service
+@RequiredArgsConstructor // Somente campos com final, não precisa de construtor.
 public class AutorService {
 
     private final AutorRepository autorRepository;
     private final LivroRepository livroRepository;
     private final AutorValidator validator;
-
-    public AutorService(AutorRepository autorRepository, AutorValidator validator, LivroRepository livroRepository) {
-        this.autorRepository = autorRepository;
-        this.validator = validator;
-        this.livroRepository = livroRepository;
-    }
 
     public Autor salvar(Autor autor){
         validator.validar(autor);

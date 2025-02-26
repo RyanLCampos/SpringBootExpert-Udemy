@@ -26,6 +26,7 @@ import com.github.springudemy.libraryapi.exceptions.RegistroDuplicadoException;
 import com.github.springudemy.libraryapi.model.Autor;
 import com.github.springudemy.libraryapi.service.AutorService;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
@@ -38,7 +39,7 @@ public class AutorController {
 
     // @RequestMapping(method = RequestMethod.POST) - OUTRA FORMA
     @PostMapping
-    public ResponseEntity<Object> salvar(@RequestBody AutorDTO autor) {
+    public ResponseEntity<Object> salvar(@RequestBody @Valid AutorDTO autor) {
         try {
 
             Autor autorEntidade = autor.mapearParaAutor();
@@ -119,7 +120,7 @@ public class AutorController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Object> atualizar(@PathVariable("id") String id, @RequestBody AutorDTO dto) {
+    public ResponseEntity<Object> atualizar(@PathVariable("id") String id, @RequestBody @Valid AutorDTO dto) {
         try {
 
             Optional<Autor> autorOptional = autorService.obterPorId(UUID.fromString(id));

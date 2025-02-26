@@ -5,10 +5,21 @@ import java.util.UUID;
 
 import com.github.springudemy.libraryapi.model.Autor;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Past;
+import jakarta.validation.constraints.Size;
+
 public record AutorDTO(
         UUID id,
+        @NotBlank(message = "campo obrigatório") // Strings (Em branco e null)
+        @Size(min = 2, max = 100, message = "campo fora do tamanho padrão") // Define a quantidade de characteres na String
         String nome,
+        @NotNull(message = "campo obrigatório")
+        @Past(message = "não pode ser uma data futura")
         LocalDate dataNascimento,
+        @NotBlank(message = "campo obrigatório")
+        @Size(min = 2, max = 50, message = "campo fora do tamanho padrão")
         String nacionalidade
 ) {
 

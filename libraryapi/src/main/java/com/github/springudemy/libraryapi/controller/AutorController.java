@@ -21,6 +21,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.github.springudemy.libraryapi.controller.dto.AutorDTO;
 import com.github.springudemy.libraryapi.controller.dto.ErroResposta;
+import com.github.springudemy.libraryapi.controller.mappers.AutorMapper;
 import com.github.springudemy.libraryapi.exceptions.AutorComObraAssociadaException;
 import com.github.springudemy.libraryapi.exceptions.RegistroDuplicadoException;
 import com.github.springudemy.libraryapi.model.Autor;
@@ -36,21 +37,22 @@ import lombok.RequiredArgsConstructor;
 public class AutorController {
 
     private final AutorService autorService;
+    private final AutorMapper mapper;
 
     // @RequestMapping(method = RequestMethod.POST) - OUTRA FORMA
     @PostMapping
-    public ResponseEntity<Object> salvar(@RequestBody @Valid AutorDTO autor) {
+    public ResponseEntity<Object> salvar(@RequestBody @Valid AutorDTO dto) {
         try {
 
-            Autor autorEntidade = autor.mapearParaAutor();
+            Autor autor = mapper.toEntity(dto);
 
-            autorService.salvar(autorEntidade);
+            autorService.salvar(autor);
 
             // http://localhost:8080/autores/873a5ff9-2b99-4ab8-8699-829e1211a8de
             URI location = ServletUriComponentsBuilder
                     .fromCurrentRequest()
                     .path("/{id}")
-                    .buildAndExpand(autorEntidade.getId())
+                    .buildAndExpand(autor.getId())
                     .toUri();
 
             return ResponseEntity.created(location).build();
@@ -63,38 +65,34 @@ public class AutorController {
     @GetMapping("/{id}")
     public ResponseEntity<AutorDTO> obterDetalhes(@PathVariable String id) {
 
-        Optional<Autor> autorOptional = autorService.obterPorId(UUID.fromString(id));
+        var idAutor = UUID.fromString(id);
 
-        if (autorOptional.isPresent()) {
-            Autor autor = autorOptional.get();
+        Optional<Autor> autorOptional = autorService.obterPorId(idAutor);
 
-            AutorDTO autorDTO = new AutorDTO(autor.getId(),
-                    autor.getNome(),
-                    autor.getDataNascimento(),
-                    autor.getNacionalidade());
-
-            return ResponseEntity.ok(autorDTO); // Encontrado -> Código: 200
-        }
-
-        return ResponseEntity.notFound().build(); // Não encontrado -> Código: 404
+        return autorService
+                    .obterPorId(idAutor)
+                    .map(autor -> {
+                        AutorDTO dto = mapper.toDTO(autor);
+                        return ResponseEntity.ok(dto);
+                    }).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Object> excluirAutor(@PathVariable String id) {
         try {
             Optional<Autor> autorOptional = autorService.obterPorId(UUID.fromString(id));
-            
+
             if (autorOptional.isEmpty()) {
                 return ResponseEntity.notFound().build();
             }
-            
+
             Autor autor = autorOptional.get();
-            
+
             autorService.deletar(autor);
-            
+
             return ResponseEntity.noContent().build();
 
-        }catch(AutorComObraAssociadaException e){
+        } catch (AutorComObraAssociadaException e) {
             var erroResposta = ErroResposta.respostaPadrao(e.getMessage());
             return ResponseEntity.status(erroResposta.status()).body(erroResposta);
         }

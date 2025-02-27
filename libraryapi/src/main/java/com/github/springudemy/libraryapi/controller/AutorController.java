@@ -67,8 +67,6 @@ public class AutorController {
 
         var idAutor = UUID.fromString(id);
 
-        Optional<Autor> autorOptional = autorService.obterPorId(idAutor);
-
         return autorService
                     .obterPorId(idAutor)
                     .map(autor -> {

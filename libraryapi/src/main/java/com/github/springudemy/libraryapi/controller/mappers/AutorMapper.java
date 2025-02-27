@@ -6,7 +6,9 @@ import org.mapstruct.ReportingPolicy;
 import com.github.springudemy.libraryapi.controller.dto.AutorDTO;
 import com.github.springudemy.libraryapi.model.Autor;
 
-@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE) // componentModel = "spring" -> Gera um componente Spring durante a compilação
+//componentModel = "spring" -> Gera um componente Spring durante a compilação
+// unmappedTargetPolicy = ReportingPolicy.IGNORE -> Irá ignorar os targets que não foram mapeados.
+@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface AutorMapper {
 
     Autor toEntity(AutorDTO dto);

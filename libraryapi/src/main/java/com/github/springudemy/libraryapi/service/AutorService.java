@@ -45,7 +45,7 @@ public class AutorService {
 
     public void deletar(Autor autor){
         if(possuiLivro(autor)){
-            throw new AutorComObraAssociadaException("Autor possui livro associada!");
+            throw new AutorComObraAssociadaException("Não foi possível excluir o autor. Existem livros associados a este autor que impedem a exclusão.");
         }
         autorRepository.delete(autor);
     }

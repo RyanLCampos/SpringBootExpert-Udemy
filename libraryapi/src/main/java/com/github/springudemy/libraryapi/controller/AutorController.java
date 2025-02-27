@@ -18,10 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.github.springudemy.libraryapi.controller.dto.AutorDTO;
-import com.github.springudemy.libraryapi.controller.dto.ErroResposta;
 import com.github.springudemy.libraryapi.controller.mappers.AutorMapper;
-import com.github.springudemy.libraryapi.exceptions.AutorComObraAssociadaException;
-import com.github.springudemy.libraryapi.exceptions.RegistroDuplicadoException;
 import com.github.springudemy.libraryapi.model.Autor;
 import com.github.springudemy.libraryapi.service.AutorService;
 
@@ -32,27 +29,23 @@ import lombok.RequiredArgsConstructor;
 @RestController
 @RequestMapping("/autores")
 // http://localhost:8080/autores
-public class AutorController implements GenericController{
+public class AutorController implements GenericController {
 
     private final AutorService autorService;
     private final AutorMapper mapper;
 
     // @RequestMapping(method = RequestMethod.POST) - OUTRA FORMA
     @PostMapping
-    public ResponseEntity<Object> salvar(@RequestBody @Valid AutorDTO dto) {
-        try {
+    public ResponseEntity<Void> salvar(@RequestBody @Valid AutorDTO dto) {
 
-            Autor autor = mapper.toEntity(dto);
+        Autor autor = mapper.toEntity(dto);
 
-            autorService.salvar(autor);
+        autorService.salvar(autor);
 
-            URI location = gerarHeaderLocation(autor.getId());
+        URI location = gerarHeaderLocation(autor.getId());
 
-            return ResponseEntity.created(location).build();
-        } catch (RegistroDuplicadoException e) {
-            var erroDTO = ErroResposta.conflito(e.getMessage());
-            return ResponseEntity.status(erroDTO.status()).body(erroDTO);
-        }
+        return ResponseEntity.created(location).build();
+
     }
 
     @GetMapping("/{id}")
@@ -61,32 +54,26 @@ public class AutorController implements GenericController{
         var idAutor = UUID.fromString(id);
 
         return autorService
-                    .obterPorId(idAutor)
-                    .map(autor -> {
-                        AutorDTO dto = mapper.toDTO(autor);
-                        return ResponseEntity.ok(dto);
-                    }).orElseGet(() -> ResponseEntity.notFound().build());
+                .obterPorId(idAutor)
+                .map(autor -> {
+                    AutorDTO dto = mapper.toDTO(autor);
+                    return ResponseEntity.ok(dto);
+                }).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Object> excluirAutor(@PathVariable String id) {
-        try {
-            Optional<Autor> autorOptional = autorService.obterPorId(UUID.fromString(id));
+    public ResponseEntity<Void> excluirAutor(@PathVariable String id) {
+        Optional<Autor> autorOptional = autorService.obterPorId(UUID.fromString(id));
 
-            if (autorOptional.isEmpty()) {
-                return ResponseEntity.notFound().build();
-            }
-
-            Autor autor = autorOptional.get();
-
-            autorService.deletar(autor);
-
-            return ResponseEntity.noContent().build();
-
-        } catch (AutorComObraAssociadaException e) {
-            var erroResposta = ErroResposta.respostaPadrao(e.getMessage());
-            return ResponseEntity.status(erroResposta.status()).body(erroResposta);
+        if (autorOptional.isEmpty()) {
+            return ResponseEntity.notFound().build();
         }
+
+        Autor autor = autorOptional.get();
+
+        autorService.deletar(autor);
+
+        return ResponseEntity.noContent().build();
     }
 
     @GetMapping
@@ -105,28 +92,24 @@ public class AutorController implements GenericController{
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Object> atualizar(@PathVariable("id") String id, @RequestBody @Valid AutorDTO dto) {
-        try {
+    public ResponseEntity<Void> atualizar(@PathVariable("id") String id, @RequestBody @Valid AutorDTO dto) {
 
-            Optional<Autor> autorOptional = autorService.obterPorId(UUID.fromString(id));
+        Optional<Autor> autorOptional = autorService.obterPorId(UUID.fromString(id));
 
-            if (autorOptional.isEmpty()) {
-                return ResponseEntity.notFound().build();
-            }
-
-            var autor = autorOptional.get();
-
-            autor.setNome(dto.nome());
-            autor.setDataNascimento(dto.dataNascimento());
-            autor.setNacionalidade(dto.nacionalidade());
-
-            autorService.atualizar(autor);
-
-            return ResponseEntity.noContent().build();
-        } catch (RegistroDuplicadoException e) {
-            var erroDTO = ErroResposta.conflito(e.getMessage());
-            return ResponseEntity.status(erroDTO.status()).body(erroDTO);
+        if (autorOptional.isEmpty()) {
+            return ResponseEntity.notFound().build();
         }
+
+        var autor = autorOptional.get();
+
+        autor.setNome(dto.nome());
+        autor.setDataNascimento(dto.dataNascimento());
+        autor.setNacionalidade(dto.nacionalidade());
+
+        autorService.atualizar(autor);
+
+        return ResponseEntity.noContent().build();
+
     }
 
 }

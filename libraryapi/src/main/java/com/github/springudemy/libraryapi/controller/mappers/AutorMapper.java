@@ -1,11 +1,12 @@
 package com.github.springudemy.libraryapi.controller.mappers;
 
-import org.mapstruct.MapperConfig;
+import org.mapstruct.Mapper;
+import org.mapstruct.ReportingPolicy;
 
 import com.github.springudemy.libraryapi.controller.dto.AutorDTO;
 import com.github.springudemy.libraryapi.model.Autor;
 
-@MapperConfig (componentModel = "spring") // componentModel = "spring" -> Gera um componente Spring durante a compilação
+@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE) // componentModel = "spring" -> Gera um componente Spring durante a compilação
 public interface AutorMapper {
 
     Autor toEntity(AutorDTO dto);

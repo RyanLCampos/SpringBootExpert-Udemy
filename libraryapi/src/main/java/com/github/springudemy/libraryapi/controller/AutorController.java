@@ -105,11 +105,7 @@ public class AutorController {
 
         List<AutorDTO> lista = resultado
                 .stream()
-                .map(autor -> new AutorDTO(
-                        autor.getId(),
-                        autor.getNome(),
-                        autor.getDataNascimento(),
-                        autor.getNacionalidade()))
+                .map(mapper::toDTO)
                 .collect(Collectors.toList());
 
         return ResponseEntity.ok(lista);

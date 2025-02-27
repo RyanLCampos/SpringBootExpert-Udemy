@@ -10,5 +10,6 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class LivroService {
 
+    @SuppressWarnings("unused")
     private final LivroRepository livroRepository;
 }

@@ -19,6 +19,7 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/livros")
 public class LivroController {
 
+    @SuppressWarnings("unused")
     private final LivroService servico; 
 
     @PostMapping

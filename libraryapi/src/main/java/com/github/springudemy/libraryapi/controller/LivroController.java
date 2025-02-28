@@ -1,9 +1,11 @@
 package com.github.springudemy.libraryapi.controller;
 
 import java.net.URI;
+import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -43,11 +45,21 @@ public class LivroController implements GenericController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ResultadoPesquisaLivroDTO> obterDetalhes(@PathVariable("id") String id){
+    public ResponseEntity<ResultadoPesquisaLivroDTO> obterDetalhes(@PathVariable String id){
         return service.obterPorId(UUID.fromString(id))
                 .map(livro -> {
                     ResultadoPesquisaLivroDTO dto = mapper.toDTO(livro);
                     return ResponseEntity.ok(dto);
+                }).orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Object> deletar(@PathVariable String id){
+        
+        return service.obterPorId(UUID.fromString(id))
+                .map(livro -> {
+                    service.deletar(livro);
+                    return ResponseEntity.noContent().build();
                 }).orElseGet(() -> ResponseEntity.notFound().build());
     }
 }

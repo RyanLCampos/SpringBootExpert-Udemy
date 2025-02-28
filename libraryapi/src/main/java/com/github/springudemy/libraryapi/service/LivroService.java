@@ -66,4 +66,12 @@ public class LivroService {
 
         return livroRepository.findAll(specs);
     }
+
+    public void atualizar(Livro livro){
+        if(livro.getId() == null){
+            throw new IllegalArgumentException("É necessário que o livro já esteja cadastrado na base.");
+        }
+        
+        livroRepository.save(livro);
+    }
 }

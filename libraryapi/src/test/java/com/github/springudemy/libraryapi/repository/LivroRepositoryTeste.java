@@ -3,6 +3,7 @@ package com.github.springudemy.libraryapi.repository;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import org.junit.jupiter.api.Test;
@@ -145,9 +146,9 @@ public class LivroRepositoryTeste {
 
     @Test
     public void buscarLivroPorISBNTeste() {
-        List<Livro> livros = livroRepository.findByIsbn("58657-21532");
+        Optional<Livro> livro = livroRepository.findByIsbn("58657-21532");
 
-        livros.forEach(System.out::println);
+        livro.ifPresent(System.out::println);
     }
 
     @Test

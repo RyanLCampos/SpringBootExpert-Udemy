@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import com.github.springudemy.libraryapi.controller.dto.ErroCampo;
 import com.github.springudemy.libraryapi.controller.dto.ErroResposta;
 import com.github.springudemy.libraryapi.exceptions.AutorComObraAssociadaException;
+import com.github.springudemy.libraryapi.exceptions.CampoInvalidoException;
 import com.github.springudemy.libraryapi.exceptions.RegistroDuplicadoException;
 
 @RestControllerAdvice // Captura exceptions e retorna uma resposta REST
@@ -36,6 +37,15 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.CONFLICT)
     public ErroResposta handleRegistroDuplicadoException(RegistroDuplicadoException e) {
         return ErroResposta.conflito(e.getMessage());
+    }
+
+    @ExceptionHandler(CampoInvalidoException.class)
+    @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
+    public ErroResposta handleCampoInvalidoException(CampoInvalidoException e) {
+        return new ErroResposta(
+                HttpStatus.UNPROCESSABLE_ENTITY.value(),
+                "Erro de validação.",
+                List.of(new ErroCampo(e.getCampo(), e.getMessage())));
     }
 
     @ExceptionHandler(AutorComObraAssociadaException.class)

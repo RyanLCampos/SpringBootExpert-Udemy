@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.github.springudemy.libraryapi.model.GeneroLivro;
 import com.github.springudemy.libraryapi.model.Livro;
 import com.github.springudemy.libraryapi.repository.LivroRepository;
+import com.github.springudemy.libraryapi.validator.LivroValidator;
 
 import static com.github.springudemy.libraryapi.repository.specs.LivroSpecs.*;
 
@@ -20,8 +21,10 @@ import lombok.RequiredArgsConstructor;
 public class LivroService {
 
     private final LivroRepository livroRepository;
+    private final LivroValidator validator;
 
     public Livro salvar(Livro livro) {
+        validator.validar(livro);
         return livroRepository.save(livro);
     }
 
@@ -71,7 +74,7 @@ public class LivroService {
         if(livro.getId() == null){
             throw new IllegalArgumentException("É necessário que o livro já esteja cadastrado na base.");
         }
-        
+        validator.validar(livro);
         livroRepository.save(livro);
     }
 }

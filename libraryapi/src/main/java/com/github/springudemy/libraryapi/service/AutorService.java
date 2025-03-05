@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import com.github.springudemy.libraryapi.model.Usuario;
+import com.github.springudemy.libraryapi.security.SecurityService;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.data.domain.ExampleMatcher.StringMatcher;
@@ -23,10 +25,17 @@ public class AutorService {
 
     private final AutorRepository autorRepository;
     private final LivroRepository livroRepository;
+    private final SecurityService securityService;
     private final AutorValidator validator;
 
     public Autor salvar(Autor autor){
+
         validator.validar(autor);
+
+        Usuario usuario = securityService.obterUsuarioLogado();
+
+        autor.setUsuario(usuario);
+
         return autorRepository.save(autor);
     }
 

@@ -3,6 +3,8 @@ package com.github.springudemy.libraryapi.service;
 import java.util.Optional;
 import java.util.UUID;
 
+import com.github.springudemy.libraryapi.model.Usuario;
+import com.github.springudemy.libraryapi.security.SecurityService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -24,9 +26,15 @@ public class LivroService {
 
     private final LivroRepository livroRepository;
     private final LivroValidator validator;
+    private final SecurityService securityService;
 
     public Livro salvar(Livro livro) {
         validator.validar(livro);
+
+        Usuario usuario = securityService.obterUsuarioLogado();
+
+        livro.setUsuario(usuario);
+
         return livroRepository.save(livro);
     }
 

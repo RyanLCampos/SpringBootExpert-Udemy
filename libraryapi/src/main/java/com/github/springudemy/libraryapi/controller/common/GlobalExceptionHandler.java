@@ -1,6 +1,7 @@
 package com.github.springudemy.libraryapi.controller.common;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.validation.FieldError;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -52,6 +53,12 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErroResposta handleAutorComObraAssociadaException(AutorComObraAssociadaException e) {
         return ErroResposta.respostaPadrao(e.getMessage());
+    }
+
+    @ExceptionHandler(AccessDeniedException.class)
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    public ErroResposta handleAccessDeniedException(AccessDeniedException e){
+        return new ErroResposta(HttpStatus.FORBIDDEN.value(), "Acesso Negado.", List.of());
     }
 
     @ExceptionHandler(RuntimeException.class)

@@ -27,9 +27,10 @@ public class SecurityConfiguration {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
                 .csrf(AbstractHttpConfigurer::disable)
-                .formLogin(configurer -> {
-                    configurer.loginPage("/login").permitAll(); // Pagina customizada
-                }) // Configuração de login padrão
+//                .formLogin(configurer -> {
+//                    configurer.loginPage("/login").permitAll(); // Pagina customizada
+//                }) // Configuração de login padrão
+                .formLogin(Customizer.withDefaults())
                 .httpBasic(Customizer.withDefaults()) // Configuração de autenticação básica padrão
                 .authorizeHttpRequests(authorize -> {
                     authorize.requestMatchers("/login/**").permitAll(); // Roles: Todos
@@ -42,6 +43,7 @@ public class SecurityConfiguration {
 
                     authorize.anyRequest().authenticated(); // Qualquer requisição precisa estar autenticada
                 })
+                .oauth2Login(Customizer.withDefaults())
                 .build();
     }
 

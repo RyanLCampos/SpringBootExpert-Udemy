@@ -17,11 +17,11 @@ public class SecurityService {
     public Usuario obterUsuarioLogado(){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-        UserDetails usuarioLogado = (UserDetails) authentication.getPrincipal();
+       if(authentication instanceof CustomAuthentication customAuthentication){
+           return customAuthentication.getUsuario();
+       }
 
-        String login = usuarioLogado.getUsername();
-
-        return service.obterPorLogin(login);
+       return null;
     }
 
 }

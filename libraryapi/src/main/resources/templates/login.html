@@ -3,100 +3,68 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Formulário de Login</title>
+    <title>Login</title>
+
+    <!-- Link para o Bootstrap CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Link para o Font Awesome (para os ícones de redes sociais) -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+
+    <!-- Link para o MDB (Material Design for Bootstrap) -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/5.0.0/mdb.min.css" rel="stylesheet">
 
     <style>
-        body {
-            background-color: #f4f6f9;
-            font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-        }
-
-        .login-container {
-            background-color: #ffffff;
-            padding: 40px;
-            border-radius: 12px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            width: 100%;
-            max-width: 380px;
-        }
-
-        .login-container h2 {
-            margin-bottom: 30px;
-            text-align: center;
-            font-size: 24px;
-            color: #333;
-            font-weight: bold;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        .form-label {
-            font-weight: 500;
-            color: #333;
-            display: block;
-            margin-bottom: 8px;
-        }
-
-        .form-input {
-            width: 100%;
-            padding: 12px;
-            font-size: 16px;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            box-sizing: border-box;
-            background-color: #f9f9f9;
-            transition: border-color 0.3s ease;
-        }
-
-        .form-input:focus {
-            border-color: #007bff;
-            outline: none;
-        }
-
-        .btn-submit {
-            width: 100%;
-            padding: 12px;
-            font-size: 16px;
-            background-color: #007bff;
-            color: #fff;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-
-        .btn-submit:hover {
-            background-color: #0056b3;
-        }
-
-        .btn-submit:focus {
-            outline: none;
+        .gradient-custom {
+            background: linear-gradient(to right, rgba(106, 17, 203, 1), rgba(37, 117, 252, 1));
         }
     </style>
 </head>
-<body>
+<body class="gradient-custom">
 
-<div class="login-container">
-    <h2>Login</h2>
-    <form method="post" th:action="@{/login}">
-        <div class="form-group">
-            <label for="username" class="form-label">Usuário</label>
-            <input type="text" class="form-input" id="username" name="username" placeholder="Digite seu nome de usuário" required>
+<div class="container py-5 h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+            <div class="card shadow-2-strong" style="border-radius: 1rem;">
+                <div class="card-body p-5 text-center">
+
+                    <h3 class="mb-5">Sign in</h3>
+
+                    <!-- Formulário de Login -->
+                    <form method="post" th:action="@{/login}">
+                        <div data-mdb-input-init class="form-outline mb-4">
+                            <input type="text" id="typeUsernameX-2" name="username" class="form-control form-control-lg" placeholder="Digite seu nome de usuário" required />
+                            <label class="form-label" for="typeUsernameX-2">Usuário</label>
+                        </div>
+
+                        <div data-mdb-input-init class="form-outline mb-4">
+                            <input type="password" id="typePasswordX-2" name="password" class="form-control form-control-lg" placeholder="Digite sua senha" required />
+                            <label class="form-label" for="typePasswordX-2">Password</label>
+                        </div>
+
+                        <!-- Botão de Login -->
+                        <button data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-lg btn-block" type="submit">Login</button>
+
+                        <hr class="my-4">
+
+                        <!-- Botão de Login com Google -->
+                        <a th:href="@{/oauth2/authorization/google}" class="btn btn-lg btn-block btn-danger w-100 mt-3">
+                            <i class="fab fa-google me-2"></i> Entrar com Google
+                        </a>
+
+                    </form>
+
+                </div>
+            </div>
         </div>
-        <div class="form-group">
-            <label for="password" class="form-label">Senha</label>
-            <input type="password" class="form-input" id="password" name="password" placeholder="Digite sua senha" required>
-        </div>
-        <button type="submit" class="btn-submit">Entrar</button>
-    </form>
+    </div>
 </div>
+
+<!-- Script do Bootstrap -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- Script do MDB -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/5.0.0/mdb.min.js"></script>
 
 </body>
 </html>

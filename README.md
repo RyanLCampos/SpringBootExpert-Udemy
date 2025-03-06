@@ -13,14 +13,24 @@ Este repositório contém os exemplos práticos do curso da Udemy chamado **Spri
 
 ## Tecnologias Utilizadas
 
-- **Spring Boot**
-- **Spring Data JPA**
-- **Hibernate**
-- **PostgreSQL**
-- **JWT (JSON Web Token)**
-- **OAuth2**
-- **Docker**
-- **AWS (Amazon Web Services)**
-- **IntelliJ IDEA**
-- **Postman**
+- **Spring Boot**: Framework Java para criação de aplicações web de forma rápida e eficiente.
+- **Spring Data JPA & Hibernate**: Ferramentas para persistência de dados com mapeamento objeto-relacional.
+- **PostgreSQL**: Banco de dados relacional utilizado para persistir dados da aplicação.
+- **REST API**: Criação de APIs RESTful para comunicação entre sistemas e integração de serviços.
+- **JWT (JSON Web Token)** & **OAuth2**: Implementação de autenticação e autorização seguras para proteção de APIs e controle de acesso.
+- **Docker**: Containerização de aplicações para ambientes de desenvolvimento, teste e produção.
+- **AWS (Amazon Web Services)**: Deploy e escalabilidade de aplicações utilizando EC2, RDS e outros serviços da AWS.
+- **IntelliJ IDEA**: IDE utilizada para o desenvolvimento eficiente da aplicação.
+- **Postman**: Testes de APIs para garantir a funcionalidade e segurança das rotas criadas.
+
+## Funcionalidades Implementadas
+
+- **Autenticação e Autorização**: Implementação de autenticação segura utilizando **JWT** e **OAuth2**, incluindo integração com provedores de identidade como o **Google**.
+- **Criação de APIs RESTful**: Desenvolvimento de endpoints REST para operações de CRUD, com foco em segurança e eficiência.
+- **Containerização com Docker**: Criação de containers Docker para a aplicação, facilitando o processo de deploy e garantindo a consistência entre ambientes de desenvolvimento e produção.
+- **Deploy na AWS**: Publicação de aplicações utilizando serviços da **AWS**, com **EC2** para hospedagem e **RDS** para bancos de dados, além de configurações de segurança e escalabilidade.
+- **Documentação de API com Swagger**: Geração automática de documentação interativa da API, permitindo fácil consumo por desenvolvedores externos.
+- **Monitoramento com Spring Actuator**: Implementação de métricas de monitoramento e logs para facilitar a manutenção da aplicação em produção.
+
+Este repositório serve como um exemplo prático das tecnologias e metodologias aprendidas, com o objetivo de criar aplicações Java Spring Boot escaláveis, seguras e preparadas para ambientes de produção.
 

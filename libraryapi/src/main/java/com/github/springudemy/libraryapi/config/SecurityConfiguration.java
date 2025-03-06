@@ -12,6 +12,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 // import org.springframework.security.core.userdetails.User;
 // import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.config.core.GrantedAuthorityDefaults;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -73,5 +74,11 @@ public class SecurityConfiguration {
 
         return new CustomUserDetailsService(usuarioService);
     }
+
+    @Bean
+    public GrantedAuthorityDefaults grantedAuthorityDefaults(){
+        return new GrantedAuthorityDefaults("");
+    }
+
 
 }

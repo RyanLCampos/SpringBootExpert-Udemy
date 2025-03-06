@@ -9,3 +9,18 @@ Este repositório contém os exemplos práticos do curso da Udemy chamado **Spri
 - **OAuth2**: Integração com **OAuth2** para autenticação segura e delegada, permitindo acesso controlado a recursos protegidos.
 - **Docker**: Containerização de aplicações **Spring Boot** usando **Docker** para facilitar o desenvolvimento, teste e deploy.
 - **AWS (Amazon Web Services)**: Deploy de aplicações **Spring Boot** na nuvem usando **AWS**, aproveitando seus recursos escaláveis e de alta disponibilidade.
+
+
+## Tecnologias Utilizadas
+
+- **Spring Boot**
+- **Spring Data JPA**
+- **Hibernate**
+- **PostgreSQL**
+- **JWT (JSON Web Token)**
+- **OAuth2**
+- **Docker**
+- **AWS (Amazon Web Services)**
+- **IntelliJ IDEA**
+- **Postman**
+

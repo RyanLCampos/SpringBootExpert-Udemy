@@ -1,6 +1,7 @@
 package com.github.springudemy.libraryapi.config;
 
 import com.github.springudemy.libraryapi.security.CustomUserDetailsService;
+import com.github.springudemy.libraryapi.security.LoginSocialSuccessHandler;
 import com.github.springudemy.libraryapi.service.UsuarioService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -25,7 +26,7 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfiguration {
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http, LoginSocialSuccessHandler successHandler) throws Exception {
         return http
                 .csrf(AbstractHttpConfigurer::disable)
 //                .formLogin(configurer -> {
@@ -44,7 +45,9 @@ public class SecurityConfiguration {
 
                     authorize.anyRequest().authenticated(); // Qualquer requisição precisa estar autenticada
                 })
-                .oauth2Login(Customizer.withDefaults())
+                .oauth2Login(oauth2 ->{
+                    oauth2.successHandler(successHandler);
+                })
                 .build();
     }
 

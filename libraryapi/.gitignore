@@ -4,12 +4,6 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 
-# Ignorar application.yml na raiz do projeto
-/application.yml
-
-# Ignorar application.yml dentro de src/main/resources
-/src/main/resources/application.yml
-
 ### STS ###
 .apt_generated
 .classpath

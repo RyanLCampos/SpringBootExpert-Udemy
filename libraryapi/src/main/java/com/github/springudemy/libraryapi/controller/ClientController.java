@@ -7,10 +7,7 @@ import com.github.springudemy.libraryapi.service.ClientService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -20,6 +17,7 @@ public class ClientController {
     private final ClientService service;
     private final ClientMapper mapper;
 
+    @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public void salvar(@RequestBody ClientDTO dto){
         Client client = mapper.toEntity(dto);

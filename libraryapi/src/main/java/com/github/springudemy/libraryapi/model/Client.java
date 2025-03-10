@@ -12,14 +12,19 @@ public class Client {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(name = "id")
     private UUID id;
 
+    @Column(name = "client_id")
     private String clienteId;
 
+    @Column(name = "client_secret")
     private String clientSecret;
 
+    @Column(name = "redirect_uri")
     private String redirectURI;
 
+    @Column(name = "scope")
     private String scope;
 
 }

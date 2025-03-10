@@ -21,7 +21,7 @@ public class ClientValidator {
     }
 
     private boolean existeClientId(Client client) {
-        Optional<Client> optionalClient = repository.findByClientId(client.getClienteId());
+        Optional<Client> optionalClient = repository.findByClientId(client.getClientId());
 
         // Quando estiver cadastrando
         if(client.getId() == null){

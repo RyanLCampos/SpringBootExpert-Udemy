@@ -16,7 +16,7 @@ public class Client {
     private UUID id;
 
     @Column(name = "client_id")
-    private String clienteId;
+    private String clientId;
 
     @Column(name = "client_secret")
     private String clientSecret;

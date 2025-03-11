@@ -5,6 +5,7 @@ import com.github.springudemy.libraryapi.security.LoginSocialSuccessHandler;
 import com.github.springudemy.libraryapi.service.UsuarioService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -39,10 +40,6 @@ public class SecurityConfiguration {
                     authorize.requestMatchers("/login/**").permitAll(); // Roles: Todos
 
                     authorize.requestMatchers(HttpMethod.POST, "/usuarios/**").permitAll(); // Roles: Todos
-
-                    // authorize.requestMatchers("/autores/**").hasRole("ADMIN"); // Roles: ADMIN
-
-                    // authorize.requestMatchers("/livros/**").hasAnyRole("USER", "ADMIN"); // Roles: ADMIN, USER
 
                     authorize.anyRequest().authenticated(); // Qualquer requisição precisa estar autenticada
                 })

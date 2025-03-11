@@ -62,6 +62,7 @@ public class CustomRegisteredClientRepository implements RegisteredClientReposit
                 .scope(client.getScope())
                 .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC) // Define o metodo de autenticação do cliente
                 .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE) // Define que o cliente usará o fluxo de "Código de Autorização" para obter o token de acesso
+                .authorizationGrantType(AuthorizationGrantType.CLIENT_CREDENTIALS)
                 .tokenSettings(tokenSettings)
                 .clientSettings(clientSettings)
                 .build();

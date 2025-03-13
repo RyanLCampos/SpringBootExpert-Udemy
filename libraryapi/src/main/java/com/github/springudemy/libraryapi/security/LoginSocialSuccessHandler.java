@@ -8,7 +8,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
@@ -24,8 +23,6 @@ public class LoginSocialSuccessHandler extends SavedRequestAwareAuthenticationSu
     private static final String SENHA_PADRAO = "321";
 
     private final UsuarioService service;
-    private final PasswordEncoder encoder;
-
 
     @Override
     public void onAuthenticationSuccess(
@@ -48,6 +45,9 @@ public class LoginSocialSuccessHandler extends SavedRequestAwareAuthenticationSu
         authentication = new CustomAuthentication(usuario);
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
+
+        // Redirecionamento para /authorized após o sucesso na autenticação
+        setDefaultTargetUrl("/authorized");
 
         super.onAuthenticationSuccess(request, response, authentication);
     }

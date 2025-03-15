@@ -29,7 +29,7 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity(securedEnabled = true, jsr250Enabled = true) // Permite utilizar regras de acesso nos Controllers
-public class SecurityConfiguration{
+public class SecurityConfiguration{ // RESOURCE SERVER
 
     @Bean
     @Order(2)

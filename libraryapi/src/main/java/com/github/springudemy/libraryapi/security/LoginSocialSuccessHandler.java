@@ -46,9 +46,6 @@ public class LoginSocialSuccessHandler extends SavedRequestAwareAuthenticationSu
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        // Redirecionamento para /authorized após o sucesso na autenticação
-        setDefaultTargetUrl("/authorized");
-
         super.onAuthenticationSuccess(request, response, authentication);
     }
 

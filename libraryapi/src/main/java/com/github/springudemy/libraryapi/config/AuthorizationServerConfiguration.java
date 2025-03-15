@@ -8,6 +8,7 @@ import com.nimbusds.jose.proc.SecurityContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
+import org.springframework.http.MediaType;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -16,10 +17,13 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.server.authorization.config.annotation.web.configuration.OAuth2AuthorizationServerConfiguration;
 import org.springframework.security.oauth2.server.authorization.config.annotation.web.configurers.OAuth2AuthorizationServerConfigurer;
+import org.springframework.security.oauth2.server.authorization.settings.AuthorizationServerSettings;
 import org.springframework.security.oauth2.server.authorization.settings.ClientSettings;
 import org.springframework.security.oauth2.server.authorization.settings.OAuth2TokenFormat;
 import org.springframework.security.oauth2.server.authorization.settings.TokenSettings;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
+import org.springframework.security.web.util.matcher.MediaTypeRequestMatcher;
 
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
@@ -53,6 +57,13 @@ public class AuthorizationServerConfiguration {
             .with(authorizationServerConfigurer, (authorizationServer) ->
                     authorizationServer
                             .oidc(Customizer.withDefaults())
+
+            )
+            .exceptionHandling((exceptions) -> exceptions
+                    .defaultAuthenticationEntryPointFor(
+                            new LoginUrlAuthenticationEntryPoint("/login"),
+                            new MediaTypeRequestMatcher(MediaType.TEXT_HTML)
+                    )
             );
 
         http.formLogin(configurer -> configurer.loginPage("/login"));
@@ -71,7 +82,8 @@ public class AuthorizationServerConfiguration {
     public TokenSettings tokenSettings(){
         return TokenSettings.builder()
                 .accessTokenFormat(OAuth2TokenFormat.SELF_CONTAINED)
-                .accessTokenTimeToLive(Duration.ofMinutes(60))
+                .accessTokenTimeToLive(Duration.ofMinutes(60)) // access_token: token utilizado nas requisições
+                .refreshTokenTimeToLive(Duration.ofMinutes(90)) // refresh_token: token para renovar o access_token
                 .build();
     }
 
@@ -86,27 +98,34 @@ public class AuthorizationServerConfiguration {
     // JWK -> JSON Web Key
     @Bean
     public JWKSource<SecurityContext> jwkSource() throws Exception {
-        RSAKey rsaKey = gerarChaveRSA(); // Gera o par de chaves RSA
-        JWKSet jwkSet = new JWKSet(rsaKey); // Cria um conjunto de chaves JWK
-        return new ImmutableJWKSet<>(jwkSet); // Retorna o conjunto de chaves JWK (Imutável)
+        KeyPair keyPair = gerarChaveRSA();
+
+        RSAPublicKey publicKey = (RSAPublicKey) keyPair.getPublic();
+        RSAPrivateKey privateKey = (RSAPrivateKey) keyPair.getPrivate();
+
+        RSAKey rsaKey = new RSAKey.Builder(publicKey)
+                .privateKey(privateKey)
+                .keyID(UUID.randomUUID().toString())
+                .build();
+
+        JWKSet jwkSet = new JWKSet(rsaKey);
+
+        return new ImmutableJWKSet<>(jwkSet);
+
     }
 
     // Gerar par de chaves RSA
-    private RSAKey gerarChaveRSA() throws Exception {
-        KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA"); // Inicializa o gerador de chaves RSA
-        keyPairGenerator.initialize(2048); // Define o tamanho da chave como 2048 bits
-        KeyPair keyPair = keyPairGenerator.generateKeyPair(); // Gera o par de chaves (Publica e Privada)
+    private static KeyPair gerarChaveRSA() throws Exception {
+        KeyPair keyPair;
+        try {
+            KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
+            keyPairGenerator.initialize(2048);
+            keyPair = keyPairGenerator.generateKeyPair();
+        }catch (Exception e){
+            throw new IllegalStateException(e);
+        }
 
-        RSAPublicKey chavePublica = (RSAPublicKey) keyPair.getPublic(); // Obtém chave publica
-
-        RSAPrivateKey chavePrivada = (RSAPrivateKey) keyPair.getPrivate(); // Obtém chave privada
-
-        // Cria e retorna uma chave RSA com chave publica, chave privada e um identificador único.
-        return new RSAKey
-                .Builder(chavePublica)
-                .privateKey(chavePrivada)
-                .keyID(UUID.randomUUID().toString()) // Gera um UUID para o Key ID
-                .build();
+        return keyPair;
     }
 
 
@@ -116,5 +135,19 @@ public class AuthorizationServerConfiguration {
     public JwtDecoder jwtDecoder(JWKSource<SecurityContext> jwkSource){
         return OAuth2AuthorizationServerConfiguration.jwtDecoder(jwkSource); // Cria um JwtDecoder usando a fonte de chaves JWK
     }
+
+    @Bean
+    public AuthorizationServerSettings authorizationServerSettings(){
+        return AuthorizationServerSettings.builder()
+                .tokenEndpoint("/oauth2/token") // Obter token
+                .tokenIntrospectionEndpoint("/oauth2/introspect") // Utilizado para consultar status do token
+                .tokenRevocationEndpoint("/oauth2/revoke") // revogar
+                .authorizationEndpoint("/oauth2/authorize") // Authorization endpoint
+                .oidcUserInfoEndpoint("/oauth2/userinfo") // Informações do usuario OPEN ID CONNECT
+                .jwkSetEndpoint("/oauth2/jwks") // Obter a chave publica pra verificar a assinatura do token
+                .oidcLogoutEndpoint("/oauth2/logout") //logout
+                .build();
+    }
+
 
 }

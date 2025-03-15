@@ -31,11 +31,4 @@ public class LoginViewController {
         return "Seu authorization code: " + code;
     }
 
-    @GetMapping("/error")
-    @ResponseBody
-    public String handleError(@RequestParam("continue") String continueUrl) {
-        // Lidar com o erro, talvez redirecionar para outra página com mensagem de erro.
-        return "errorPage";
-    }
-
 }

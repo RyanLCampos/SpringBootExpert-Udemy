@@ -1,6 +1,7 @@
 package com.github.springudemy.libraryapi.config;
 
 import com.github.springudemy.libraryapi.security.CustomUserDetailsService;
+import com.github.springudemy.libraryapi.security.JwtCustomAuthenticationFilter;
 import com.github.springudemy.libraryapi.security.LoginSocialSuccessHandler;
 import com.github.springudemy.libraryapi.service.UsuarioService;
 import jakarta.servlet.DispatcherType;
@@ -22,21 +23,25 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 // import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
+import org.springframework.security.oauth2.server.resource.web.authentication.BearerTokenAuthenticationFilter;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity(securedEnabled = true, jsr250Enabled = true) // Permite utilizar regras de acesso nos Controllers
-public class SecurityConfiguration {
+public class SecurityConfiguration{
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http, LoginSocialSuccessHandler successHandler) throws Exception {
+    @Order(2)
+    public SecurityFilterChain securityFilterChain(HttpSecurity http,
+                                                   LoginSocialSuccessHandler successHandler,
+                                                   JwtCustomAuthenticationFilter jwtCustomAuthenticationFilter) throws Exception {
         return http
                 .csrf(AbstractHttpConfigurer::disable)
+                .httpBasic(Customizer.withDefaults()) // Configuração de autenticação básica padrão
                 .formLogin(configurer -> {
                     configurer.loginPage("/login").permitAll(); // Pagina customizada
                 }) // Configuração de login padrão
-                .httpBasic(Customizer.withDefaults()) // Configuração de autenticação básica padrão
                 .authorizeHttpRequests(authorize -> {
                     authorize.requestMatchers("/login/**").permitAll(); // Roles: Todos
 
@@ -51,6 +56,7 @@ public class SecurityConfiguration {
                         .successHandler(successHandler);
                 })
                 .oauth2ResourceServer(oauth2Rs -> oauth2Rs.jwt(Customizer.withDefaults()))
+                .addFilterAfter(jwtCustomAuthenticationFilter, BearerTokenAuthenticationFilter.class)
                 .build();
     }
 

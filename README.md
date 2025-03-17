@@ -25,7 +25,7 @@ Este repositório contém os exemplos práticos do curso da Udemy **Spring Boot 
 Este repositório demonstra as tecnologias e práticas aprendidas para criar aplicações Spring Boot seguras, escaláveis e prontas para produção.
 
 ## Estrutura do Repositório
-- **Arquitetura Spring**: Introdução aos principais conceitos de uma API Rest.
+- **Arquitetura Spring**: Introdução a arquitetura e estrutura do framework.
 - **Library API**: Desenvolve uma API RESTful completa, com Spring Data JPA, Hibernate, Spring Security (JWT, OAuth2 e autenticação via Google Cloud), Bean Validation, DTOs (Data Transfer Objects), entre outros recuros.
   - **Resource Server**: Projeto criado para testar autenticação do Library API. 
 - **Produtos API**: Primeiros passos com Spring Boot (Spring JPA, Spring Boot).

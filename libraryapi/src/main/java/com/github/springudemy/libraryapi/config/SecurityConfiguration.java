@@ -39,7 +39,6 @@ public class SecurityConfiguration{ // RESOURCE SERVER
                                                    JwtCustomAuthenticationFilter jwtCustomAuthenticationFilter) throws Exception {
         return http
                 .csrf(AbstractHttpConfigurer::disable)
-                .httpBasic(Customizer.withDefaults()) // Configuração de autenticação básica padrão
                 .formLogin(configurer -> {
                     configurer.loginPage("/login").permitAll(); // Pagina customizada
                 }) // Configuração de login padrão

@@ -1,0 +1,30 @@
+2025-03-17T20:05:17.742-03:00  INFO 8004 --- [libraryapi] [main] c.g.s.libraryapi.LibraryapiApplication   : Starting LibraryapiApplication using Java 21.0.2 with PID 8004 (C:\Users\RYAN\Desktop\Cursos Udemy\SpringBootExpert\libraryapi\target\classes started by RYAN in C:\Users\RYAN\Desktop\Cursos Udemy\SpringBootExpert\libraryapi)
+2025-03-17T20:05:17.746-03:00  INFO 8004 --- [libraryapi] [main] c.g.s.libraryapi.LibraryapiApplication   : No active profile set, falling back to 1 default profile: "default"
+2025-03-17T20:05:19.272-03:00  INFO 8004 --- [libraryapi] [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-03-17T20:05:19.371-03:00  INFO 8004 --- [libraryapi] [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 90 ms. Found 4 JPA repository interfaces.
+2025-03-17T20:05:20.877-03:00  INFO 8004 --- [libraryapi] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2025-03-17T20:05:20.910-03:00  INFO 8004 --- [libraryapi] [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-03-17T20:05:20.910-03:00  INFO 8004 --- [libraryapi] [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.36]
+2025-03-17T20:05:21.078-03:00  INFO 8004 --- [libraryapi] [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2025-03-17T20:05:21.079-03:00  INFO 8004 --- [libraryapi] [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 3260 ms
+2025-03-17T20:05:21.175-03:00  WARN 8004 --- [libraryapi] [main] com.zaxxer.hikari.HikariConfig           : library-db-pool - idleTimeout is close to or more than maxLifetime, disabling it.
+2025-03-17T20:05:21.196-03:00  INFO 8004 --- [libraryapi] [main] com.zaxxer.hikari.HikariDataSource       : library-db-pool - Starting...
+2025-03-17T20:05:21.473-03:00  INFO 8004 --- [libraryapi] [main] com.zaxxer.hikari.pool.HikariPool        : library-db-pool - Added connection org.postgresql.jdbc.PgConnection@38f617f4
+2025-03-17T20:05:21.475-03:00  INFO 8004 --- [libraryapi] [main] com.zaxxer.hikari.HikariDataSource       : library-db-pool - Start completed.
+2025-03-17T20:05:21.781-03:00  INFO 8004 --- [libraryapi] [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-03-17T20:05:21.999-03:00  INFO 8004 --- [libraryapi] [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.6.8.Final
+2025-03-17T20:05:22.079-03:00  INFO 8004 --- [libraryapi] [main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2025-03-17T20:05:22.343-03:00  INFO 8004 --- [libraryapi] [main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (library-db-pool)']
+	Database driver: undefined/unknown
+	Database version: 17.3
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-03-17T20:05:22.620-03:00  INFO 8004 --- [libraryapi] [main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-03-17T20:05:23.796-03:00  INFO 8004 --- [libraryapi] [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-03-17T20:05:23.799-03:00  INFO 8004 --- [libraryapi] [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-03-17T20:05:24.256-03:00  INFO 8004 --- [libraryapi] [main] o.s.d.j.r.query.QueryEnhancerFactory     : Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-03-17T20:05:25.704-03:00  WARN 8004 --- [libraryapi] [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-03-17T20:05:25.750-03:00  INFO 8004 --- [libraryapi] [main] eAuthenticationProviderManagerConfigurer : Global AuthenticationManager configured with AuthenticationProvider bean with name customAuthenticationProvider

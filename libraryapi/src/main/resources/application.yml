@@ -1,6 +1,9 @@
 spring:
   application:
     name: libraryapi
+  output:
+    ansi:
+      enabled: ALWAYS
   datasource:
     url: jdbc:postgresql://localhost:5432/library
     username: postgres
@@ -22,6 +25,8 @@ spring:
             client-secret: ${GOOGLE_CLIENT_SECRET}
 
 logging:
+  pattern:
+    console: '%clr(%d{yyyy-MM-dd HH:mm:ss}){faint} | %clr(%-5level) | %clr(%-40.40logger){magenta} | %msg%n'
   file:
     name: app.log
   level:

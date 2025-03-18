@@ -68,7 +68,8 @@ public class SecurityConfiguration{ // RESOURCE SERVER
                     "/swagger-resources/**",
                     "/swagger-ui.html",
                     "/swagger-ui/**",
-                    "/webjar/**"
+                    "/webjar/**",
+                    "/actuator/**"
             );
         };
     }

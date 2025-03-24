@@ -29,3 +29,4 @@ Este repositório demonstra as tecnologias e práticas aprendidas para criar apl
 - **Library API**: Desenvolve uma API RESTful completa, com Spring Data JPA, Hibernate, Spring Security (JWT, OAuth2 e autenticação via Google Cloud), Bean Validation, DTOs (Data Transfer Objects), entre outros recuros.
   - **Resource Server**: Projeto criado para testar autenticação do Library API. 
 - **Produtos API**: Primeiros passos com Spring Boot (Spring JPA, Spring Boot).
+- **Convidados**: Projeto criado para o módulo 'Dominando Docker' do curso.
